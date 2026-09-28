@@ -1,0 +1,496 @@
+{
+  "version": 1,
+  "description": "Routing test set. See docs/TESTING.md \u00a73. Harness: build the message from `text`, then append a fenced code block of `codeLines` lines (`let value_i = i + 1;`), then append FILLER sentences until estimateTokens(text) >= padToTokens. `sameTextAs` reuses another case's built text. Tiers: 'T3?' means needs_confirmation(tier3). For band 'uncertain', mock the classifier to return expectComplexity.",
+  "filler": "The team met on Tuesday to review the notes from the previous week. ",
+  "codeLineTemplate": "let value_{i} = {i} + 1;",
+  "testCatalog": {
+    "T1": [
+      {
+        "id": "free-a",
+        "tags": [
+          "light"
+        ],
+        "context": 32768
+      },
+      {
+        "id": "free-b",
+        "tags": [
+          "strong"
+        ],
+        "context": 65536
+      },
+      {
+        "id": "free-coder",
+        "tags": [
+          "coding"
+        ],
+        "context": 32768
+      },
+      {
+        "id": "free-vision",
+        "tags": [
+          "vision"
+        ],
+        "context": 32768,
+        "vision": true
+      }
+    ],
+    "T2": [
+      {
+        "id": "mid-a",
+        "tags": [],
+        "context": 128000,
+        "vision": true,
+        "promptPerM": 0.5,
+        "completionPerM": 1.5
+      },
+      {
+        "id": "mid-coder",
+        "tags": [
+          "coding"
+        ],
+        "context": 128000,
+        "promptPerM": 0.4,
+        "completionPerM": 1.6
+      }
+    ],
+    "T3": [
+      {
+        "id": "prem-a",
+        "tags": [],
+        "context": 200000,
+        "vision": true,
+        "promptPerM": 3,
+        "completionPerM": 15
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": 1,
+      "text": "Rewrite this sentence to sound more professional: 'we cant make the meeting tmrw'",
+      "expectScore": -1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": true
+    },
+    {
+      "id": 2,
+      "text": "What is a Roth IRA?",
+      "expectScore": -1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": true
+    },
+    {
+      "id": 3,
+      "text": "Translate 'good morning, how are you' into Nepali.",
+      "expectScore": -1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 4,
+      "text": "Summarize this in 3 bullets:\n",
+      "padToTokens": 200,
+      "expectScore": 0,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 5,
+      "text": "Give me a title for a blog post about AI model routing.",
+      "expectScore": -1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 6,
+      "text": "Fix the grammar: their going to the store tomorow.",
+      "expectScore": -1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 7,
+      "text": "Define idempotency in one sentence.",
+      "expectScore": -1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 8,
+      "text": "Suggest 5 names for a business brokerage firm.",
+      "expectScore": 0,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 9,
+      "text": "Write a Python function that reverses a string.",
+      "expectScore": 0,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTaskType": "coding",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 10,
+      "text": "Draft a short thank-you email to my recruiter.",
+      "expectScore": 0,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTaskType": "writing",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 11,
+      "text": "Debug this, why does it return undefined?\n",
+      "codeLines": 8,
+      "padToTokens": 100,
+      "expectScore": 4,
+      "expectBand": "uncertain",
+      "expectComplexity": "medium",
+      "expectTaskType": "coding",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 12,
+      "text": "Compare Supabase vs Firebase for a solo developer building an AI app.",
+      "expectScore": 2,
+      "expectBand": "uncertain",
+      "expectComplexity": "medium",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 13,
+      "text": "What are the trade-offs between pgvector and Pinecone?",
+      "expectScore": 2,
+      "expectBand": "uncertain",
+      "expectComplexity": "medium",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 14,
+      "text": "Refactor this function to be more readable.\n",
+      "codeLines": 15,
+      "expectScore": 4,
+      "expectBand": "uncertain",
+      "expectComplexity": "medium",
+      "expectTaskType": "coding",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 15,
+      "text": "Research the latest OpenRouter free model limits.",
+      "expectScore": 1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTaskType": "research",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 16,
+      "text": "Create an implementation plan for adding OAuth to my app.",
+      "expectScore": 2,
+      "expectBand": "uncertain",
+      "expectComplexity": "medium",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 17,
+      "text": "Summarize the attached report.",
+      "attachmentTokens": 15000,
+      "expectScore": 0,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": true
+    },
+    {
+      "id": 18,
+      "text": "Write a cover letter for a Director of Technology Transformation role using my resume below.\n",
+      "padToTokens": 600,
+      "expectScore": 2,
+      "expectBand": "uncertain",
+      "expectComplexity": "medium",
+      "expectTaskType": "writing",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 19,
+      "text": "Analyze these quarterly numbers and tell me what stands out.\n",
+      "padToTokens": 400,
+      "expectScore": 2,
+      "expectBand": "uncertain",
+      "expectComplexity": "medium",
+      "expectTaskType": "analysis",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 20,
+      "text": "Optimize this SQL query.\n",
+      "codeLines": 10,
+      "expectScore": 4,
+      "expectBand": "uncertain",
+      "expectComplexity": "medium",
+      "expectTaskType": "coding",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": false
+    },
+    {
+      "id": 21,
+      "text": "Design a system architecture for a multi-tenant SaaS with event sourcing; include the data model and rollout.\n",
+      "padToTokens": 1600,
+      "expectScore": 5,
+      "expectBand": "high",
+      "expectComplexity": "high",
+      "expectTier": {
+        "cost": "T2",
+        "balanced": "T2",
+        "performance": "T3?"
+      },
+      "must": true
+    },
+    {
+      "id": 22,
+      "text": "Debug this stack trace and find the root cause.\n",
+      "codeLines": 30,
+      "padToTokens": 400,
+      "expectScore": 5,
+      "expectBand": "high",
+      "expectComplexity": "high",
+      "expectTaskType": "coding",
+      "expectTier": {
+        "cost": "T2",
+        "balanced": "T2",
+        "performance": "T3?"
+      },
+      "must": false
+    },
+    {
+      "id": 23,
+      "text": "Refactor this module.\n",
+      "codeLines": 150,
+      "padToTokens": 1800,
+      "expectScore": 6,
+      "expectBand": "high",
+      "expectComplexity": "high",
+      "expectTaskType": "coding",
+      "expectTier": {
+        "cost": "T2",
+        "balanced": "T2",
+        "performance": "T3?"
+      },
+      "must": false
+    },
+    {
+      "id": 24,
+      "text": "Compare these three approaches in depth.\n",
+      "padToTokens": 350,
+      "previousTier": 2,
+      "expectScore": 5,
+      "expectBand": "high",
+      "expectComplexity": "high",
+      "expectTier": {
+        "cost": "T2",
+        "balanced": "T2",
+        "performance": "T3?"
+      },
+      "must": false
+    },
+    {
+      "id": 25,
+      "text": "Prove that the algorithm below terminates and derive its complexity.\n",
+      "codeLines": 8,
+      "padToTokens": 100,
+      "expectScore": 4,
+      "expectBand": "uncertain",
+      "expectComplexity": "high",
+      "expectTier": {
+        "cost": "T2",
+        "balanced": "T2",
+        "performance": "T3?"
+      },
+      "must": false
+    },
+    {
+      "id": 26,
+      "text": "What's in this screenshot?",
+      "image": true,
+      "expectScore": 0,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectModel": {
+        "cost": "free-vision",
+        "balanced": "free-vision",
+        "performance": "mid-a"
+      },
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": true
+    },
+    {
+      "id": 27,
+      "text": "Rewrite my salary negotiation email to sound confident.",
+      "sensitive": true,
+      "expectScore": -1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T2"
+      },
+      "must": true
+    },
+    {
+      "id": 28,
+      "text": "Rewrite this sentence.",
+      "stickyModel": "mid-a",
+      "expectModel": {
+        "cost": "mid-a",
+        "balanced": "mid-a",
+        "performance": "mid-a"
+      },
+      "expectMethod": "sticky",
+      "must": true
+    },
+    {
+      "id": 29,
+      "sameTextAs": 21,
+      "monthSpendEqualsCap": true,
+      "expectScore": 5,
+      "expectBand": "high",
+      "expectComplexity": "high",
+      "expectTier": {
+        "cost": "T1",
+        "balanced": "T1",
+        "performance": "T1"
+      },
+      "must": true
+    },
+    {
+      "id": 30,
+      "sameTextAs": 1,
+      "allTier1InCooldown": true,
+      "expectScore": -1,
+      "expectBand": "low",
+      "expectComplexity": "low",
+      "expectEscalated": true,
+      "expectTier": {
+        "cost": "T2",
+        "balanced": "T2",
+        "performance": "T2"
+      },
+      "must": true
+    }
+  ]
+}
